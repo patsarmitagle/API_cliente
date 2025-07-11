@@ -72,3 +72,7 @@ def obtener_registros():
         return df.to_dict(orient="records")
     except FileNotFoundError:
         return []
+
+@app.get("/ping")
+def ping():
+    return {"status": "ok"}
