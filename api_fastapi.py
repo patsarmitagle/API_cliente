@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import pandas as pd
 import random
+import uuid
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -26,6 +27,7 @@ def registrar_cliente(data: Registro):
     apellido1 = random.choice(["Gibert", "Pérez", "González", "Ramírez"])
     apellido2 = random.choice(["Vicente", "López", "Díaz", "Rodríguez"])
     nuevo = {
+        "id_cliente": id_cliente,
         "tipo_id": "C",
         "num_identificacion": str(random.randint(1000000000, 1999999999)),
         "num_telefono": telefono,
@@ -63,7 +65,7 @@ def registrar_cliente(data: Registro):
         df.to_csv(archivo, mode='a', header=not pd.read_csv(archivo).shape[0], index=False)
     except:
         df.to_csv(archivo, index=False)
-    return {"msg": "Cliente registrado"}
+    return {"msg": "Cliente registrado", "id_cliente": id_cliente}
 
 @app.get("/registros")
 def obtener_registros():
