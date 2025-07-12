@@ -73,7 +73,13 @@ def registrar_cliente(data: Registro):
         print("Error al guardar el archivo:", e)
         raise HTTPException(status_code=500, detail=f"Error al guardar el archivo: {e}")
 
-    return {"msg": "Cliente registrado", "id_cliente": id_cliente}
+    return {
+    "msg": "Cliente registrado",
+    "id_cliente": id_cliente,
+    "nombres": nuevo[nombre],
+    "primer_apellido": nuevo["primer_apellido"],
+    "num_telefono": nuevo["num_telefono"]
+    }
 
 @app.get("/registros")
 def obtener_registros():
