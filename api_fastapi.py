@@ -88,6 +88,29 @@ def obtener_registros():
         return df.to_dict(orient="records")
     except FileNotFoundError:
         return []
+        
+@app.get("/registro/{telefono}")
+def obtener_registro_por_telefono(telefono: str):
+    try:
+        df = pd.read_csv(archivo)
+
+        # Filtrar registros válidos que coincidan con el número
+        df_filtrado = df[
+            (df["num_telefono"] == telefono) &
+            (df["num_identificacion"] != "num_identificacion")
+        ]
+
+        if df_filtrado.empty:
+            raise HTTPException(status_code=404, detail="Cliente no encontrado")
+
+        # Tomar el último registro válido
+        ultimo = df_filtrado.iloc[-1].to_dict()
+        return ultimo
+
+    except FileNotFoundError:
+        raise HTTPException(status_code=500, detail="Archivo no encontrado")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/ping")
 def ping():
