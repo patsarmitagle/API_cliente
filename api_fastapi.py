@@ -76,7 +76,7 @@ def registrar_cliente(data: Registro):
     return {
     "msg": "Cliente registrado",
     "id_cliente": id_cliente,
-    "nombres": nuevo[nombre],
+    "nombres": nuevo["nombres"],
     "primer_apellido": nuevo["primer_apellido"],
     "num_telefono": nuevo["num_telefono"]
     }
