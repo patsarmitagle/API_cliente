@@ -23,6 +23,7 @@ class Registro(BaseModel):
 @app.post("/registro")
 def registrar_cliente(data: Registro):
     telefono = data.num_telefono.strip()
+    id_cliente = str(uuid.uuid4())  # Generar UUID único
     nombre = random.choice(["Selena", "Carlos", "María", "Juan", "Lucía"])
     apellido1 = random.choice(["Gibert", "Pérez", "González", "Ramírez"])
     apellido2 = random.choice(["Vicente", "López", "Díaz", "Rodríguez"])
@@ -61,10 +62,11 @@ def registrar_cliente(data: Registro):
         "Cuota_Lbz_96": "809289.27"
     }
     df = pd.DataFrame([nuevo])
-    try:
-        df.to_csv(archivo, mode='a', header=not pd.read_csv(archivo).shape[0], index=False)
-    except:
+    if os.path.exists(archivo):
+        df.to_csv(archivo, mode='a', header=False, index=False)
+    else:
         df.to_csv(archivo, index=False)
+
     return {"msg": "Cliente registrado", "id_cliente": id_cliente}
 
 @app.get("/registros")
