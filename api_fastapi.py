@@ -3,6 +3,7 @@ from pydantic import BaseModel
 import pandas as pd
 import random
 import uuid
+import os
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
