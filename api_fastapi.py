@@ -62,10 +62,15 @@ def registrar_cliente(data: Registro):
         "Cuota_Lbz_96": "809289.27"
     }
     df = pd.DataFrame([nuevo])
-    if os.path.exists(archivo):
-        df.to_csv(archivo, mode='a', header=False, index=False)
-    else:
-        df.to_csv(archivo, index=False)
+    try:
+        if os.path.exists(archivo):
+            header = not pd.read_csv(archivo).empty
+            df.to_csv(archivo, mode='a', header=header, index=False)
+        else:
+            df.to_csv(archivo, index=False)
+    except Exception as e:
+        print("Error al guardar el archivo:", e)
+        raise HTTPException(status_code=500, detail=f"Error al guardar el archivo: {e}")
 
     return {"msg": "Cliente registrado", "id_cliente": id_cliente}
 
