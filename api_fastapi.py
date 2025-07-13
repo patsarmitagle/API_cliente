@@ -96,8 +96,9 @@ def obtener_registro_por_telefono(telefono: str):
 
         # Filtrar registros válidos que coincidan con el número
         df_filtrado = df[
-            (df["num_telefono"] == telefono) &
-            (df["num_identificacion"] != "num_identificacion")
+            (df["num_telefono"] == telefono)
+            #&
+            #(df["num_identificacion"] != "num_identificacion")
         ]
         print("Coincidencias:", len(df_filtrado))
         
