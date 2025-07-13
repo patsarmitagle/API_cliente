@@ -99,7 +99,8 @@ def obtener_registro_por_telefono(telefono: str):
             (df["num_telefono"] == telefono) &
             (df["num_identificacion"] != "num_identificacion")
         ]
-
+        print("Coincidencias:", len(df_filtrado))
+        
         if df_filtrado.empty:
             raise HTTPException(status_code=404, detail="Cliente no encontrado")
 
@@ -111,6 +112,10 @@ def obtener_registro_por_telefono(telefono: str):
         raise HTTPException(status_code=500, detail="Archivo no encontrado")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+        
+        print("Número recibido:", telefono)
+        print("Cantidad de registros:", len(df))
+    
 
 @app.get("/ping")
 def ping():
