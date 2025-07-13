@@ -93,6 +93,9 @@ def obtener_registros():
 def obtener_registro_por_telefono(telefono: str):
     try:
         df = pd.read_csv(archivo)
+        
+        df["num_telefono"] = df["num_telefono"].astype(str).str.strip()
+        telefono = telefono.strip()
 
         # Filtrar registros válidos que coincidan con el número
         df_filtrado = df[
@@ -101,6 +104,8 @@ def obtener_registro_por_telefono(telefono: str):
             #(df["num_identificacion"] != "num_identificacion")
         ]
         print("Coincidencias:", len(df_filtrado))
+        print("Teléfono buscado:", repr(telefono))
+        print("Teléfonos únicos en CSV:", df["num_telefono"].unique())
         
         if df_filtrado.empty:
             raise HTTPException(status_code=404, detail="Cliente no encontrado")
